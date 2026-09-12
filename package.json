@@ -1,5 +1,5 @@
 {
-  "name": "captain-obfuscator",
+  "name": "@daxence/captain-obfuscator",
   "version": "0.1.0",
   "description": "Deterministic string obfuscation for opaque identifiers, metadata, and URL-safe values.",
   "keywords": [
@@ -13,14 +13,14 @@
     "library"
   ],
   "license": "MIT",
-  "author": "Your Name <you@example.com>",
+  "author": "Daxence Solutions <github@daxence.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-user/captain-obfuscator.git"
+    "url": "git+https://github.com/daxence/captain-obfuscator.git"
   },
-  "homepage": "https://github.com/your-user/captain-obfuscator#readme",
+  "homepage": "https://github.com/daxence/captain-obfuscator#readme",
   "bugs": {
-    "url": "https://github.com/your-user/captain-obfuscator/issues"
+    "url": "https://github.com/daxence/captain-obfuscator/issues"
   },
   "type": "module",
   "main": "./dist/index.js",

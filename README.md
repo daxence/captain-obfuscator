@@ -2,22 +2,22 @@
 
 A small, deterministic string obfuscation library for opaque identifiers, metadata, and URL-safe values.
 
-[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue)](https://github.com/your-user/captain-obfuscator/actions)
-[![npm](https://img.shields.io/badge/npm-v0.1.0-blue)](https://www.npmjs.com/package/captain-obfuscator)
+[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue)](https://github.com/daxence/captain-obfuscator/actions)
+[![npm](https://img.shields.io/badge/npm-v0.1.0-blue)](https://www.npmjs.com/package/@daxence/captain-obfuscator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## Installation
 
 ```bash
-npm install captain-obfuscator
+npm install @daxence/captain-obfuscator
 # or
-yarn add captain-obfuscator
+yarn add @daxence/captain-obfuscator
 ```
 
 ## Quick start
 
 ```ts
-import { obfuscate, deobfuscate, createObfuscator } from "captain-obfuscator";
+import { obfuscate, deobfuscate, createObfuscator } from "@daxence/captain-obfuscator";
 
 const encoded = obfuscate("customer-123", "my-key");
 const decoded = deobfuscate(encoded, "my-key");
@@ -73,7 +73,7 @@ For a deeper threat model and guidance, see [SECURITY.md](SECURITY.md).
 The library throws a small set of explicit errors for predictable behavior:
 
 ```ts
-import { ObfuscationError, InvalidKeyError, InvalidPayloadError } from "captain-obfuscator";
+import { ObfuscationError, InvalidKeyError, InvalidPayloadError } from "@daxence/captain-obfuscator";
 ```
 
 Common cases include:

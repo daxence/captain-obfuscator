@@ -1,0 +1,91 @@
+{
+  "name": "captain-obfuscator",
+  "version": "0.1.0",
+  "description": "Deterministic string obfuscation for opaque identifiers, metadata, and URL-safe values.",
+  "keywords": [
+    "obfuscation",
+    "encoding",
+    "deterministic",
+    "string",
+    "security",
+    "crypto",
+    "typescript",
+    "library"
+  ],
+  "license": "MIT",
+  "author": "Your Name <you@example.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-user/captain-obfuscator.git"
+  },
+  "homepage": "https://github.com/your-user/captain-obfuscator#readme",
+  "bugs": {
+    "url": "https://github.com/your-user/captain-obfuscator/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "packageManager": "yarn@4.9.2",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --sourcemap --clean --treeshake --target node18",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "check:pack": "npm pack --dry-run",
+    "prepare": "husky install",
+    "changeset": "changeset",
+    "release": "changeset publish"
+  },
+  "lint-staged": {
+    "*.{ts,js,mjs,cjs,json,md}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.12",
+    "@eslint/js": "^9.19.0",
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "@vitest/coverage-v8": "^2.1.9",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^17.1.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.4.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.9"
+  }
+}

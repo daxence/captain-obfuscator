@@ -90,6 +90,6 @@
     "semantic-release": "^25.0.9",
     "tsup": "^8.5.1",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.9"
+    "vitest": "^4.1.11"
   }
 }

@@ -61,8 +61,7 @@
     "test:coverage": "vitest run --coverage",
     "check:pack": "npm pack --dry-run",
     "prepare": "husky install",
-    "changeset": "changeset",
-    "release": "changeset publish"
+    "release": "semantic-release"
   },
   "lint-staged": {
     "*.{ts,js,mjs,cjs,json,md}": [
@@ -71,8 +70,12 @@
     ]
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.12",
     "@eslint/js": "^9.19.0",
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^11.0.1",
+    "@semantic-release/github": "^12.0.9",
+    "@semantic-release/npm": "^13.1.5",
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
@@ -84,6 +87,7 @@
     "husky": "^9.0.0",
     "lint-staged": "^15.1.0",
     "prettier": "^3.4.0",
+    "semantic-release": "^25.0.9",
     "tsup": "^8.5.1",
     "typescript": "^5.7.2",
     "vitest": "^2.1.9"

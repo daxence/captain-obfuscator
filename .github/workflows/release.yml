@@ -1,78 +1,39 @@
 name: Release
 
 on:
-  push:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
     branches: [main]
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
-
-# No default write access; each job opts into only what it needs.
 permissions:
-  contents: read
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.workflow }}
+  cancel-in-progress: false
 
 jobs:
-  # Builds and tests with zero secret access, so a compromised dependency
-  # or malicious build script here has nothing to steal.
-  verify:
+  release:
+    name: Build & release
     if: >-
-      github.actor == 'daxence' &&
-      github.ref == 'refs/heads/main' &&
-      github.repository == 'daxence/captain-obfuscator'
-    runs-on: ubuntu-latest
-    environment: owner-approved-actions
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 20
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Lint
-        run: yarn lint
-
-      - name: Typecheck
-        run: yarn typecheck
-
-      - name: Test
-        run: yarn test
-
-      - name: Build
-        run: yarn build
-
-  # Only this job can see the npm token, and only after the required
-  # reviewer on the release environment approves the run.
-  publish:
-    needs: verify
-    if: >-
-      github.actor == 'daxence' &&
-      github.ref == 'refs/heads/main' &&
-      github.repository == 'daxence/captain-obfuscator'
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.actor.login == 'daxence'
     runs-on: ubuntu-latest
     environment: owner-approved-release
-    timeout-minutes: 15
-    permissions:
-      contents: write
-      pull-requests: write
-      id-token: write
+    timeout-minutes: 20
+
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
 
       - name: Enable Corepack
@@ -81,9 +42,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
-          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -91,11 +51,9 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Create release pull request or publish to npm
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
-        with:
-          publish: yarn release
+      - name: Semantic release
+        run: yarn semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PKG_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_PKG_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

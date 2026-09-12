@@ -14,12 +14,18 @@ jobs:
   # Builds and tests with zero secret access, so a compromised dependency
   # or malicious build script here has nothing to steal.
   verify:
+    if: >-
+      github.actor == 'daxence' &&
+      github.ref == 'refs/heads/main' &&
+      github.repository == 'daxence/captain-obfuscator'
     runs-on: ubuntu-latest
+    environment: owner-approved-actions
+    timeout-minutes: 15
     permissions:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -28,7 +34,7 @@ jobs:
         run: corepack enable
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 20
           cache: yarn
@@ -49,18 +55,23 @@ jobs:
         run: yarn build
 
   # Only this job can see the npm token, and only after the required
-  # reviewer on the "npm-release" environment approves the run.
+  # reviewer on the release environment approves the run.
   publish:
     needs: verify
+    if: >-
+      github.actor == 'daxence' &&
+      github.ref == 'refs/heads/main' &&
+      github.repository == 'daxence/captain-obfuscator'
     runs-on: ubuntu-latest
-    environment: npm-release
+    environment: owner-approved-release
+    timeout-minutes: 15
     permissions:
       contents: write
       pull-requests: write
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
 
@@ -68,7 +79,7 @@ jobs:
         run: corepack enable
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 20
           cache: yarn
@@ -81,7 +92,7 @@ jobs:
         run: yarn build
 
       - name: Create release pull request or publish to npm
-        uses: changesets/action@v1
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
         with:
           publish: yarn release
         env:

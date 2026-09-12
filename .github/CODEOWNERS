@@ -1,2 +1,6 @@
-# Every path in the repo requires @daxence's review, no exceptions.
+# Require daxence's review for every file in the repository.
 * @daxence
+
+# Keep repository automation and this ownership policy explicitly protected.
+/.github/CODEOWNERS @daxence
+/.github/workflows/** @daxence

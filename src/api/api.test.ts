@@ -1,15 +1,10 @@
-import {
-  InvalidKeyError,
-  InvalidPayloadError,
-  ObfuscationError,
-  createObfuscator,
-  deobfuscate,
-  obfuscate,
-} from "./index";
-
 import { describe, expect, it } from "vitest";
 
-describe("captain-obfuscator", () => {
+import { InvalidKeyError, InvalidPayloadError } from "../domain/errors";
+
+import { createObfuscator, deobfuscate, obfuscate } from "./api";
+
+describe("public api", () => {
   it("round-trips ASCII values", () => {
     const value = "hello world";
     const encoded = obfuscate(value, "my-key");
@@ -102,16 +97,17 @@ describe("captain-obfuscator", () => {
     }
   });
 
+  it("supports keys larger than one hash block", () => {
+    const longKey = "k".repeat(100);
+    const encoded = obfuscate("block-sized-key", longKey);
+
+    expect(deobfuscate(encoded, longKey)).toBe("block-sized-key");
+  });
+
   it("returns predictable versioned payloads", () => {
     const encoded = obfuscate("version-test", "v1");
 
     expect(encoded.startsWith("v1.")).toBe(true);
     expect(() => deobfuscate(encoded, "v1")).not.toThrow();
-  });
-
-  it("exposes explicit error types", () => {
-    const err = new ObfuscationError("message");
-    expect(err).toBeInstanceOf(Error);
-    expect(err.name).toBe("ObfuscationError");
   });
 });

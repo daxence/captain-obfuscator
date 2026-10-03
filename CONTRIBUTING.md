@@ -5,7 +5,7 @@ Thanks for contributing to captain-obfuscator.
 ## Workflow
 
 1. Fork and clone the repository.
-2. Install dependencies with Yarn.
+2. Install dependencies with pnpm.
 3. Create a focused branch.
 4. Add or update tests for any behavior change.
 5. Run the validation commands before opening a PR.
@@ -13,11 +13,11 @@ Thanks for contributing to captain-obfuscator.
 ## Validation
 
 ```bash
-yarn lint
-yarn typecheck
-yarn test
-yarn test:coverage
-yarn build
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm test:coverage
+pnpm build
 ```
 
 ## Commit style

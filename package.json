@@ -48,7 +48,7 @@
     "access": "public",
     "provenance": true
   },
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "pnpm@9.15.0",
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --sourcemap --clean --treeshake --target node18",
     "lint": "eslint .",
@@ -79,7 +79,7 @@
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
-    "@vitest/coverage-v8": "^2.1.9",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-import": "^2.31.0",

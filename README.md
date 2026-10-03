@@ -11,7 +11,7 @@ A small, deterministic string obfuscation library for opaque identifiers, metada
 ```bash
 npm install @daxence/captain-obfuscator
 # or
-yarn add @daxence/captain-obfuscator
+pnpm add @daxence/captain-obfuscator
 ```
 
 ## Quick start
@@ -73,7 +73,11 @@ For a deeper threat model and guidance, see [SECURITY.md](SECURITY.md).
 The library throws a small set of explicit errors for predictable behavior:
 
 ```ts
-import { ObfuscationError, InvalidKeyError, InvalidPayloadError } from "@daxence/captain-obfuscator";
+import {
+  ObfuscationError,
+  InvalidKeyError,
+  InvalidPayloadError,
+} from "@daxence/captain-obfuscator";
 ```
 
 Common cases include:
@@ -92,9 +96,9 @@ The encoded payload includes a version prefix so future releases can evolve the 
 
 ```bash
 git clone <repo>
-yarn install
-yarn test
-yarn build
+pnpm install
+pnpm test
+pnpm build
 ```
 
 ## Contributing

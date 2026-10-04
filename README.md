@@ -6,6 +6,10 @@ A small, deterministic string obfuscation library for opaque identifiers, metada
 [![npm](https://img.shields.io/badge/npm-v0.1.0-blue)](https://www.npmjs.com/package/@daxence/captain-obfuscator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+## Demo
+
+Try the live demo here: https://tools-hub.work/tools/captain-obfuscator/
+
 ## Installation
 
 ```bash
@@ -99,6 +103,30 @@ git clone <repo>
 pnpm install
 pnpm test
 pnpm build
+```
+
+## Releasing a new version (semantic-release)
+
+This repository uses `semantic-release` and publishes from `main`.
+
+1. Use Conventional Commits in your merged changes:
+
+- `feat:` triggers a minor release
+- `fix:` triggers a patch release
+- `BREAKING CHANGE:` triggers a major release
+
+2. Push (or merge) the commits to `main`.
+3. GitHub Actions runs the CI workflow, then triggers the release workflow.
+4. The release workflow runs `pnpm release` and automatically updates:
+
+- npm package version
+- GitHub release
+- `CHANGELOG.md`
+
+Optional local check:
+
+```bash
+pnpm release --dry-run
 ```
 
 ## Contributing

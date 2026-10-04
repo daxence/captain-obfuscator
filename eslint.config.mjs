@@ -57,6 +57,17 @@ export default [
     },
   },
   {
+    files: ["**/*.mjs"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        console: "readonly",
+        process: "readonly",
+      },
+    },
+  },
+  {
     rules: {
       ...prettier.rules,
     },

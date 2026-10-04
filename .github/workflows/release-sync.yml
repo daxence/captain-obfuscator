@@ -1,0 +1,48 @@
+name: Release sync
+
+# main is rule-protected (changes must go through a PR), so semantic-release
+# (see release.config.js) no longer pushes the version/changelog commit
+# directly. This workflow opens that commit as a PR after each GitHub
+# release is published instead.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-sync-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Sync package.json version and changelog
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+          RELEASE_DATE: ${{ github.event.release.published_at }}
+        run: node .github/scripts/sync-release.mjs
+
+      - name: Open release sync pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          commit-message: "chore(release): sync ${{ github.event.release.tag_name }} metadata [skip ci]"
+          branch: chore/release-sync-${{ github.event.release.tag_name }}
+          delete-branch: true
+          title: "chore(release): sync ${{ github.event.release.tag_name }} metadata"
+          body: >
+            Automated follow-up to the published release
+            [${{ github.event.release.tag_name }}](${{ github.event.release.html_url }}):
+            updates `package.json` and `CHANGELOG.md` to match.

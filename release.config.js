@@ -7,15 +7,10 @@ export default {
       { releaseRules: [{ type: "docs", scope: "readme", release: "patch" }] },
     ],
     "@semantic-release/release-notes-generator",
-    ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md" }],
     "@semantic-release/npm",
-    [
-      "@semantic-release/git",
-      {
-        assets: ["CHANGELOG.md", "package.json"],
-        message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
-      },
-    ],
+    // No @semantic-release/git: main is rule-protected (PRs only), so this
+    // plugin's direct "git push" of the version/changelog commit is rejected
+    // (GH013). The release-sync workflow opens a PR with those files instead.
     ["@semantic-release/github", { labels: false }],
   ],
 };

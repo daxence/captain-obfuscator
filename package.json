@@ -89,5 +89,10 @@
     "tsup": "^8.5.1",
     "typescript": "^5.7.2",
     "vitest": "^4.1.11"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": ">=0.28.1"
+    }
   }
 }
